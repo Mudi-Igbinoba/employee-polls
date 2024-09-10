@@ -1,7 +1,7 @@
 import { saveQuestionAnswer } from '../utils/api';
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
-export const SAVE_ANSWER = 'SAVE_ANSWER';
+export const SAVE_ANSWER_TO_QUESTION = 'SAVE_ANSWER_TO_QUESTION';
 
 export const receiveQuestions = (questions) => {
   return {
@@ -10,22 +10,22 @@ export const receiveQuestions = (questions) => {
   };
 };
 
-const saveAnswer = ({ authedUser, qid, answer }) => {
+const saveAnswerToQuestion = ({ authedUser, qid, answer }) => {
   return {
-    type: SAVE_ANSWER,
+    type: SAVE_ANSWER_TO_QUESTION,
     authedUser,
     qid,
     answer
   };
 };
 
-export const handleSaveAnswer = (info) => {
+export const handleSaveAnswerToQuestion = (info) => {
   return (dispatch) => {
-    dispatch(saveAnswer(info));
+    dispatch(saveAnswerToQuestion(info));
 
     return saveQuestionAnswer(info).catch((e) => {
       console.warn('Error in saving answer:', e);
-      dispatch(saveAnswer(info));
+      dispatch(saveAnswerToQuestion(info));
       alert('There was an error saving your answer.Try again.');
     });
   };

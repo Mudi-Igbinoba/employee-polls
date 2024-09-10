@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import Question from './Question';
 import { Col, Container, Row } from 'react-bootstrap';
 
-// going to need the athenticated user data as well as the questions
-
 const Dashboard = ({ questionIds, userAnswersIds }) => {
   const answered = questionIds.filter((id) => userAnswersIds.includes(id));
   const unanswered = questionIds.filter((id) => !userAnswersIds.includes(id));
-  // need to add toggle/filter option
+
   return (
     <div className='bg-white'>
       <Container className='py-5 text-center'>

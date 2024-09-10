@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { MdArrowBackIos } from 'react-icons/md';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { formatQuestion } from '../utils/helper';
+import { handleSaveAnswerToQuestion } from '../actions/questions';
+import { handleSaveAnswerToUser } from '../actions/users';
 
 const withRouter = (Component) => {
   const ComponentWithRouterProp = (props) => {
@@ -16,13 +18,34 @@ const withRouter = (Component) => {
   return ComponentWithRouterProp;
 };
 
-const QuestionPage = ({ detail, navigate, chosenOption }) => {
+const QuestionPage = ({
+  authedUser,
+  dispatch,
+  qid,
+  detail,
+  navigate,
+  chosenOption
+}) => {
   const { name, avatar, options, hasAnswered, votes, totalVotes } = detail;
   const [option, setOption] = useState(chosenOption);
   console.log(option);
 
   const handleChange = (e) => {
     setOption(e.target.value);
+    dispatch(
+      handleSaveAnswerToQuestion({
+        authedUser,
+        qid,
+        answer: e.target.value
+      })
+    );
+    dispatch(
+      handleSaveAnswerToUser({
+        authedUser,
+        qid,
+        answer: e.target.value
+      })
+    );
   };
 
   return (
@@ -56,6 +79,7 @@ const QuestionPage = ({ detail, navigate, chosenOption }) => {
                       onChange={(e) => handleChange(e)}
                       name='pollOptions'
                       className='tw-peer tw-sr-only'
+                      disabled={hasAnswered && true}
                     />
                     <>
                       <Form.Check.Label
@@ -101,6 +125,7 @@ const mapStateToProps = ({ questions, users, authedUser }, props) => {
   const user = users[question.author];
   const detail = formatQuestion(question, user, authedUser);
   return {
+    authedUser,
     chosenOption: users[authedUser].answers[qid] || '',
     detail,
     qid,
