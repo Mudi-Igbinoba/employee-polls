@@ -1,7 +1,6 @@
 import React from 'react';
-import { Navbar, Nav, NavLink, Button, Image } from 'react-bootstrap';
+import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { authedUser } from '../reducers/authedUser';
 import { connect } from 'react-redux';
 
 const Menu = ({ setUser, authedUser, users }) => {
@@ -28,14 +27,14 @@ const Menu = ({ setUser, authedUser, users }) => {
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Link as={Link} to='/add' eventKey='/add'>
-              Add
+            <Nav.Link as={Link} to='/leaderboard' eventKey='/leaderboard'>
+              Leaderboard
             </Nav.Link>
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Link as={Link} to='/leaderboard' eventKey='/leaderboard'>
-              Leaderboard
+            <Nav.Link as={Link} to='/add' eventKey='/add'>
+              Add
             </Nav.Link>
           </Nav.Item>
         </Nav>

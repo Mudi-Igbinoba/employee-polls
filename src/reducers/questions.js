@@ -1,6 +1,7 @@
 import {
   RECEIVE_QUESTIONS,
-  SAVE_ANSWER_TO_QUESTION
+  SAVE_ANSWER_TO_QUESTION,
+  SAVE_QUESTION
 } from '../actions/questions';
 
 export const questions = (state = {}, action) => {
@@ -10,6 +11,7 @@ export const questions = (state = {}, action) => {
         ...state,
         ...action.questions
       };
+
     case SAVE_ANSWER_TO_QUESTION: {
       const { authedUser, qid, answer } = action;
 
@@ -24,7 +26,13 @@ export const questions = (state = {}, action) => {
         }
       };
     }
+    case SAVE_QUESTION:
+      const { question } = action;
 
+      return {
+        ...state,
+        [question.id]: question
+      };
     default:
       return state;
   }

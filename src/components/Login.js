@@ -7,7 +7,6 @@ import Row from 'react-bootstrap/Row';
 import { connect } from 'react-redux';
 
 const Login = ({ user, setUser, userDetails }) => {
-  console.log(userDetails);
   const handleChange = (e) => {
     setUser(e.target.value);
   };

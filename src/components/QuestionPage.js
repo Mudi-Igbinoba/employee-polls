@@ -28,7 +28,6 @@ const QuestionPage = ({
 }) => {
   const { name, avatar, options, hasAnswered, votes, totalVotes } = detail;
   const [option, setOption] = useState(chosenOption);
-  console.log(option);
 
   const handleChange = (e) => {
     setOption(e.target.value);

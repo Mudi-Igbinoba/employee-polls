@@ -8,7 +8,9 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 import Menu from './Menu';
 import QuestionPage from './QuestionPage';
-// import QuestionPage, { ConnectedQuestionPage } from './QuestionPage';
+import NewQuestion from './NewQuestion';
+import Leaderboard from './Leaderboard';
+import NoMatch from './NoMatch';
 
 function App({ dispatch, loading }) {
   const [authedUser, setAuthedUser] = useState('');
@@ -25,11 +27,12 @@ function App({ dispatch, loading }) {
         {!loading ? (
           <Routes>
             <Route path='/' element={<Dashboard />} />
-            <Route path='/add' element={<h1>Add</h1>} />
-            <Route path='/leaderboard' element={<h1>Leaderboard</h1>} />
+            <Route path='/add' element={<NewQuestion />} />
+
+            <Route path='/leaderboard' element={<Leaderboard />} />
             <Route path='/question/:qid' element={<QuestionPage />} />
             <Route path='/login' element={<Navigate to='/' />} />
-            <Route path='*' element={<Navigate to='/' />} />
+            <Route path='*' element={<NoMatch />} />
           </Routes>
         ) : (
           <Routes>
@@ -38,7 +41,7 @@ function App({ dispatch, loading }) {
               element={<Login user={authedUser} setUser={setAuthedUser} />}
             />
 
-            <Route path='*' element={<Navigate to='/login' />} />
+            <Route path='*' element={<NoMatch />} />
           </Routes>
         )}
       </main>
