@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import '../App.css';
 import { connect } from 'react-redux';
@@ -41,7 +42,7 @@ function App({ dispatch, loading }) {
               element={<Login user={authedUser} setUser={setAuthedUser} />}
             />
 
-            <Route path='*' element={<NoMatch />} />
+            <Route path='*' element={<Navigate to='/login' />} />
           </Routes>
         )}
       </main>
