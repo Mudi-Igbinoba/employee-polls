@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { FcSurvey } from 'react-icons/fc';
@@ -7,21 +7,30 @@ import Row from 'react-bootstrap/Row';
 import { connect } from 'react-redux';
 
 const Login = ({ user, setUser, userDetails }) => {
+  const [validated, setValidated] = useState(false);
+
   const handleChange = (e) => {
     setUser(e.target.value);
+    const select = e.currentTarget;
+    if (select.checkValidity() === false) {
+      e.stopPropagation();
+    }
+    setValidated(true);
   };
 
   return (
     <div className='d-flex min-vh-100 justify-content-center align-items-center'>
       <Container className='py-5 text-center h-100'>
-        <h1 className='display-4 text-primary'>Employee Polls</h1>
+        <h1 className='display-4 text-primary' data-testid='heading'>
+          Employee Polls
+        </h1>
 
         {/* Logo */}
         <FcSurvey className='my-5 tw-text-9xl mx-auto' />
 
         <Row>
           <Col lg='4' className='mx-auto'>
-            <Form className='px-5'>
+            <Form className='px-5' noValidate validated={validated}>
               <Form.Group className='mb-3'>
                 <Form.Label className='display-5 mb-3 fs-5 fw-semibold text-primary'>
                   Login as an existing user
@@ -31,6 +40,7 @@ const Login = ({ user, setUser, userDetails }) => {
                   value={user}
                   onChange={handleChange}
                   className='border-2 shadow border-secondary-subtle'
+                  data-testid='user-option'
                 >
                   <option value='' disabled>
                     Choose a user
@@ -41,6 +51,11 @@ const Login = ({ user, setUser, userDetails }) => {
                     </option>
                   ))}
                 </Form.Select>
+                {validated && (
+                  <Form.Control.Feedback data-testid='user-success'>
+                    User has been selected
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
 
               {/* <Button

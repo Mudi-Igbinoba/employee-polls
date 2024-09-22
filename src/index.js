@@ -4,13 +4,9 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './reducers';
-import middleware from './middleware';
 import { BrowserRouter } from 'react-router-dom';
-
-const store = createStore(reducer, middleware);
+import store from './store';
 
 ReactDOM.render(
   <React.StrictMode>

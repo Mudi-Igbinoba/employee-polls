@@ -17,6 +17,7 @@ const Menu = ({ setUser, authedUser, users }) => {
         <Nav variant='underline' defaultActiveKey='/' className='me-auto'>
           <Nav.Item>
             <Nav.Link
+              data-testid='home-link'
               as={Link}
               to='/'
               eventKey='/'
@@ -27,13 +28,23 @@ const Menu = ({ setUser, authedUser, users }) => {
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Link as={Link} to='/leaderboard' eventKey='/leaderboard'>
+            <Nav.Link
+              data-testid='leaderboard-link'
+              as={Link}
+              to='/leaderboard'
+              eventKey='/leaderboard'
+            >
               Leaderboard
             </Nav.Link>
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Link as={Link} to='/add' eventKey='/add'>
+            <Nav.Link
+              data-testid='add-link'
+              as={Link}
+              to='/add'
+              eventKey='/add'
+            >
               Add
             </Nav.Link>
           </Nav.Item>
@@ -43,7 +54,7 @@ const Menu = ({ setUser, authedUser, users }) => {
       <div className='d-flex align-items-center'>
         <Navbar.Brand className='= d-flex align-items-center'>
           <h1 className='mb-0 fs-4 lead me-3'>{authedUser}</h1>
-          <Image src={users[authedUser].avatarURL} width='40px' fluid />
+          <Image src={users[authedUser]?.avatarURL} width='40px' fluid />
         </Navbar.Brand>
 
         <Button

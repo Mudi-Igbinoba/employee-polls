@@ -62,6 +62,7 @@ const NewQuestion = ({ authedUser, dispatch }) => {
               type='text'
               placeholder='Option One'
               required
+              data-testid='option-one-input'
             />
           </Form.Group>
 
@@ -74,9 +75,11 @@ const NewQuestion = ({ authedUser, dispatch }) => {
               type='text'
               placeholder='Option Two'
               required
+              data-testid='option-two-input'
             />
           </Form.Group>
           <Button
+            data-testid='submit-options-button'
             variant='primary'
             type='submit'
             className='mt-2 disabled:tw-cursor-not-allowed text-white bg-dark tw-border-2 fw-semibold px-4 py-2'
