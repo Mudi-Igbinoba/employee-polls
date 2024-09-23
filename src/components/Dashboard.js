@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Question from './Question';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 
 const Dashboard = ({ questionIds, userAnswersIds }) => {
+  const [category, setCategory] = useState('unanswered');
   const answered = questionIds.filter((id) => userAnswersIds.includes(id));
   const unanswered = questionIds.filter((id) => !userAnswersIds.includes(id));
 
   return (
     <div className='bg-white'>
       <Container className='py-5 text-center'>
+        <Form className='mb-5'>
+          <Form.Group className='mb-3'>
+            <Form.Label className='display-5 mb-3 fs-5 fw-semibold text-primary text-start'>
+              Filter by poll
+            </Form.Label>
+            <Form.Select
+              aria-label='Default select example'
+              value={category}
+              // onChange={handleChange}
+              className='border-2 shadow border-secondary-subtle'
+              data-testid='user-option'
+            >
+              <option value='unanswered'>Show unanswered polls</option>
+
+              <option value='answered'>Show answered polls</option>
+            </Form.Select>
+          </Form.Group>
+        </Form>
         <Row className='gy-5'>
           <Col
             xs={12}

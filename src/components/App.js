@@ -1,50 +1,70 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import '../App.css';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { handleInitialData } from '../actions/shared';
 import Login from './Login';
 import Dashboard from './Dashboard';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 import Menu from './Menu';
 import QuestionPage from './QuestionPage';
 import NewQuestion from './NewQuestion';
 import Leaderboard from './Leaderboard';
 import NoMatch from './NoMatch';
+import ProtectedRoute from './ProtectedRoute';
 
 function App({ dispatch, loading }) {
   const [authedUser, setAuthedUser] = useState('');
 
   useEffect(() => {
     dispatch(handleInitialData(authedUser));
-  }, [authedUser]);
+  }, [authedUser, dispatch]);
 
   return (
     <>
       <LoadingBar style={{ backgroundColor: 'blue', height: '5px' }} />
       {!loading && <Menu user={authedUser} setUser={setAuthedUser} />}
       <main className='bg-primary-subtle block min-vh-100'>
-        {!loading ? (
-          <Routes>
-            <Route path='/' element={<Dashboard />} />
-            <Route path='/add' element={<NewQuestion />} />
+        <Routes>
+          <Route
+            path='/login'
+            element={<Login user={authedUser} setUser={setAuthedUser} />}
+          />
 
-            <Route path='/leaderboard' element={<Leaderboard />} />
-            <Route path='/question/:qid' element={<QuestionPage />} />
-            <Route path='/login' element={<Navigate to='/' />} />
-            <Route path='*' element={<NoMatch />} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route
-              path='/login'
-              element={<Login user={authedUser} setUser={setAuthedUser} />}
-            />
-
-            <Route path='*' element={<Navigate to='/login' />} />
-          </Routes>
-        )}
+          {/* Protected routes */}
+          <Route
+            path='/'
+            element={
+              <ProtectedRoute authedUser={authedUser}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/add'
+            element={
+              <ProtectedRoute authedUser={authedUser}>
+                <NewQuestion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/leaderboard'
+            element={
+              <ProtectedRoute authedUser={authedUser}>
+                <Leaderboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/question/:qid'
+            element={
+              <ProtectedRoute authedUser={authedUser}>
+                <QuestionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path='*' element={<NoMatch />} />
+        </Routes>
       </main>
     </>
   );

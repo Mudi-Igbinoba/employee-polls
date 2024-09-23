@@ -5,17 +5,25 @@ import { FcSurvey } from 'react-icons/fc';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { setAuthedUser } from '../actions/authedUser';
 
-const Login = ({ user, setUser, userDetails }) => {
+const Login = ({ dispatch, user, setUser, userDetails }) => {
   const [validated, setValidated] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
 
   const handleChange = (e) => {
     setUser(e.target.value);
+    dispatch(setAuthedUser(e.target.value));
     const select = e.currentTarget;
     if (select.checkValidity() === false) {
       e.stopPropagation();
     }
     setValidated(true);
+    navigate(from);
   };
 
   return (
