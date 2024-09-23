@@ -22,7 +22,6 @@ function App({ dispatch, loading }) {
   return (
     <>
       <LoadingBar style={{ backgroundColor: 'blue', height: '5px' }} />
-      {!loading && <Menu user={authedUser} setUser={setAuthedUser} />}
       <main className='bg-primary-subtle block min-vh-100'>
         <Routes>
           <Route
@@ -35,6 +34,7 @@ function App({ dispatch, loading }) {
             path='/'
             element={
               <ProtectedRoute authedUser={authedUser}>
+                <Menu user={authedUser} setUser={setAuthedUser} />
                 <Dashboard />
               </ProtectedRoute>
             }
@@ -43,6 +43,7 @@ function App({ dispatch, loading }) {
             path='/add'
             element={
               <ProtectedRoute authedUser={authedUser}>
+                <Menu user={authedUser} setUser={setAuthedUser} />
                 <NewQuestion />
               </ProtectedRoute>
             }
@@ -51,6 +52,7 @@ function App({ dispatch, loading }) {
             path='/leaderboard'
             element={
               <ProtectedRoute authedUser={authedUser}>
+                <Menu user={authedUser} setUser={setAuthedUser} />
                 <Leaderboard />
               </ProtectedRoute>
             }
@@ -59,6 +61,7 @@ function App({ dispatch, loading }) {
             path='/question/:qid'
             element={
               <ProtectedRoute authedUser={authedUser}>
+                <Menu user={authedUser} setUser={setAuthedUser} />
                 <QuestionPage />
               </ProtectedRoute>
             }
