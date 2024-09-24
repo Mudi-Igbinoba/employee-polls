@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { MdArrowBackIos } from 'react-icons/md';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 import { formatQuestion } from '../utils/helper';
 import { handleSaveAnswerToQuestion } from '../actions/questions';
 import { handleSaveAnswerToUser } from '../actions/users';
@@ -21,14 +26,19 @@ const withRouter = (Component) => {
 const QuestionPage = ({
   authedUser,
   dispatch,
+  questionExists,
   qid,
   detail,
-  navigate,
-  chosenOption
+  chosenOption,
+  router
 }) => {
-  const { name, avatar, options, hasAnswered, votes, totalVotes } = detail;
+  const { name, avatar, options, hasAnswered, votes, totalVotes } =
+    detail || {};
   const [option, setOption] = useState(chosenOption);
 
+  if (!questionExists) {
+    return <Navigate to='/404'></Navigate>;
+  }
   const handleChange = (e) => {
     setOption(e.target.value);
     dispatch(
@@ -52,7 +62,7 @@ const QuestionPage = ({
       <Container className='py-5'>
         <Button
           className='border-2 d-flex align-items-center px-4 py-2 fw-bold text-primary bg-white'
-          onClick={() => navigate(-1)}
+          onClick={() => router.navigate(-1)}
         >
           {' '}
           <MdArrowBackIos />
@@ -119,16 +129,22 @@ const QuestionPage = ({
 
 const mapStateToProps = ({ questions, users, authedUser }, props) => {
   const { qid } = props.router.params;
-  const { navigate } = props.router;
   const question = questions[qid];
+
+  if (!question) {
+    return {
+      questionExists: false
+    };
+  }
   const user = users[question.author];
   const detail = formatQuestion(question, user, authedUser);
   return {
     authedUser,
+    question,
     chosenOption: users[authedUser].answers[qid] || '',
     detail,
     qid,
-    navigate
+    questionExists: true
   };
 };
 

@@ -66,7 +66,16 @@ function App({ dispatch, loading }) {
               </ProtectedRoute>
             }
           />
-          <Route path='*' element={<NoMatch />} />
+
+          <Route
+            path='*'
+            element={
+              <ProtectedRoute authedUser={authedUser}>
+                <Menu user={authedUser} setUser={setAuthedUser} />
+                <NoMatch />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
     </>
